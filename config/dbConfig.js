@@ -18,9 +18,4 @@ const sequelize = new Sequelize(DB_NAME,DB_USERNAME,DB_PASSWORD,{
     operatorsAliases: false
 });
 
-sequelize.authenticate()
-.then(() => {
-   console.log("Made a connection");
-}).catch((err) => {
-    console.log("Connection cannot be made" + err)
-});
+module.exports = sequelize;
