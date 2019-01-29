@@ -15,7 +15,7 @@ const createToken = (mobile,role) => {
 
 
 const authenticateUser = async (req,res) => {
-    let mobile = req.body.email;
+    let mobile = req.body.mobile;
     let password = req.body.password;
 
     try{
