@@ -15,15 +15,24 @@ module.exports = {
                 'type':'user',
                 'body':{
                     'query':{
-                        'match_phrase':{
-                            'name':'nisarg'
+                        'bool':{
+                            'should':[
+                                { 'term' : {'name':searchString }},
+                                { 'term' : {'city': city} },
+                                { 'term' : {'organization': org }}
+                            ]
                         }
                     }
                 }
             });
 
             console.log(esRes);
-            response(res,null,esRes,"Successful Search",200)
+            esRes = esRes['hits']['hits'];
+            let finalResponse = [];
+            esRes.forEach((obj) => {
+                finalResponse.push(obj['_source'])
+            });
+            response(res,null,finalResponse,"Successful Search",200)
         }
     }
 };
