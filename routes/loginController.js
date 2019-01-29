@@ -3,7 +3,7 @@ const jwt_salt = 'asdifadlklfnasldifaodif';
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { response }= require('../helpers/response');
-const { User } = require('./models');
+const { User } = require('../models/user.js');
 
 
 
