@@ -5,7 +5,7 @@ const User = sequelize.define('user',{
     userId : { type: Sequelize.INTEGER, primaryKey: true },
     emailId: { type: Sequelize.STRING, unique:true },
     contactNum: { type:Sequelize.STRING, unique:true },
-    password: { type: Sequelize.STRING }
+    password: { type: Sequelize.STRING, }
 });
 
 module.exports = User;
