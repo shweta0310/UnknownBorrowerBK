@@ -22,22 +22,6 @@ profileRouter.get('/:id', async (req, res, next) =>  {
             response(res, null, 'No such user exists', null, 404);
         }
 
-        // let userFinal = {
-        //     'userId' :userProfile.get('userId'),
-        //     'name' :userProfile.get('name'),
-        //     'city' :userProfile.get('city'),
-        //     'state' :userProfile.get('state'),
-        //     'org' :userProfile.get('org'),
-        //     'country' :userProfile.get('country'),
-        //     'contactNum' :userProfile.get('contactNum'),
-        //     'email' :userProfile.get('email'),
-        //     'ratings' :userProfile.get('ratings'),
-        //     'age' :userProfile.get('age'),
-        //     'gender' :userProfile.get('gender'),
-        //     'occupation' :userProfile.get('occupation'),
-        //     'balance' :userProfile.get('balance'),
-        // };
-
         response(res,null,userProfile,null,200);
 
     }
@@ -48,6 +32,21 @@ profileRouter.get('/:id', async (req, res, next) =>  {
         response(res, null, 'No such user exists', null, 404);
     }
 
+});
+
+/* PUT request for adding wallet money*/
+
+profileRouter.put('/addMoney/:id', async (req,res,next) => {
+    let userProfile = await profile.findOne({
+        where:{
+            userId:req.params.id
+        }
+    });
+    profile.update({ 'balance' : userProfile.get('balance') + req.body.amount },{ where : { userId: req.params.id }}).then(count => {
+        console.log('Rows updated' + count)
+    });
+
+    response(res, null, "Done man!",null, 201);
 });
 
 module.exports = profileRouter;
