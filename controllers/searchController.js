@@ -31,5 +31,44 @@ module.exports = {
         });
 
         response(res,null,finalResponse,"Successful Search",200)
+    },
+
+    'insert': async (userObject) => {
+        let esRes = await esClient.create({
+            index: 'user_index',
+            type: 'user',
+            id : userObject.userId,
+            body: {
+                city: userObject.city,
+                contactNum: userObject.contactNum,
+                name: userObject.name,
+                organization: userObject.org
+            }
+        });
+
+        try{
+            console.log(esRes);
+        }
+        catch(err){
+            console.log(err);
+        }
+    },
+
+    'update': async (userObject) => {
+        let esRes = await esClient.update({
+            index: 'user_index',
+            type: 'user',
+            id : userObject.userId,
+            body: {
+                doc: userObject
+            }
+        });
+
+        try{
+            console.log(esRes);
+        }
+        catch(err){
+            console.log(err);
+        }
     }
 };

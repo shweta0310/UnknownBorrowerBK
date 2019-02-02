@@ -1,5 +1,6 @@
 const profile = require('../models/profile');
 const { response } = require('../helpers/response');
+const searchHandler = require('./searchController');
 
 module.exports = {
     'getProfile': async (req, res, next) =>  {
@@ -47,19 +48,21 @@ module.exports = {
     },
 
     'updateProfile': async (req, res, next) => {
-        profile.update({
-            'name' : req.body.name,
-            'city' : req.body.city,
-            'state' : req.body.state,
-            'org' : req.body.org,
-            'country' : req.body.country,
-            'age' : req.body.age,
-            'gender' : req.body.gender,
-            'occupation' : req.body.occupation}, { where : { userId: req.userId }}).then(count => {
-            console.log('Rows updated' + count)
-        });
+        profile.update( req.body , { where : { userId: req.userId }}).then(count => {
+            console.log('Rows updated' + count);
 
-        response(res, null, "Profile updated", null, 202);
+            let userObject = {
+                userId: req.userId,
+                city:req.body.city,
+                organization: req.body.org,
+                contactNum: req.body.contactNum,
+                name: req.body.name
+            };
+
+            searchHandler.update(userObject);
+
+            response(res, null, "Profile updated", null, 202);
+        });
     },
 
     'createProfile': async (req, res, next) => {
@@ -95,13 +98,12 @@ module.exports = {
             gender: gender,
             occupation: occupation,
             balance: balance
-        })
-            .then(user => {
-                response(res, null, user, null, 201);
-            })
-            .catch(err => {
+        }).then(user => {
+            searchHandler.insert(user);
+            response(res, null, user, null, 201);
+        }).catch(err => {
                 response(res, null, err, null, 500);
-            });
+        });
 
     }
 };
